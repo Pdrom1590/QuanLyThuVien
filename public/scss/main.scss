@@ -1,0 +1,15 @@
+$list-item-active-color: #007bff; // Màu cho mục hoạt động
+
+.list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &.active {
+        background-color: $list-item-active-color;
+        color: white;
+    }
+
+    &:hover {
+        background-color: lighten($list-item-active-color, 20%);
+    }
+}
