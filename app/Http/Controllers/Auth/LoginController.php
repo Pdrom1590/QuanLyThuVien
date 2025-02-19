@@ -21,9 +21,9 @@ class LoginController extends Controller
                 if($user->is_admin == true){
                     $urlRedirect= "dashboard";
                 }else{
-                } return redirect($urlRedirect);
+                } return redirect()->intended($urlRedirect);
             }
-            return back()->with('msg','Mày đã nhập sai mật khẩu hoặc email rồi!!!');
+            return back()->with('msg','Bạn đã nhập sai mật khẩu hoặc email rồi!!!');
         }
 public function logout(Request $request){
     Auth::logout();

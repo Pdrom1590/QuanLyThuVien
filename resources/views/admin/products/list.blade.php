@@ -4,6 +4,11 @@
 <div class="d-flex">
     <a class="btn btn-success" href="{{route('product.create')}}">Create</a>
 </div>
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <table class="table">
     <tr>
         <th>ID</th>
@@ -18,7 +23,7 @@
     <tr>
         <td>{{ $product->id }}</td>
         <td>
-            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" style="width: 50px; height: 50px;">
+            <img style="height: 50px; object-fit: cover;" src="{{ $product->image ?? 'path_to_default_image.jpg' }}" class="card-img-top" alt="{{ $product->name }}">
         </td>
         <td>{{ $product->name }}</td>
         <td>{{ $product->price }}</td>

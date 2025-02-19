@@ -32,7 +32,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    public function carts()
+{
+    return $this->hasMany(Cart::class);
+}
+public function product()
+{
+    return $this->belongsTo(Product::class);
+}
     /**
      * Get the attributes that should be cast.
      *
@@ -45,4 +52,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected static function booted()
+{
+    static::created(function ($user) {
+        Cart::create(['user_id' => $user->id]);
+    });
+}
 }
