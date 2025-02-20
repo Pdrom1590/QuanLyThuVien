@@ -19,6 +19,7 @@
     <div class="list-group" id="itemList">
     <a href="{{ route('products.list', ['active' => 'products']) }}" class="list-group-item list-group-item-action">Product</a>
     <a href="{{route('admin.users.index')}}" class="list-group-item list-group-item-action" onclick="setActive(this, 'user')">User</a>
+    <a href="{{route('admin.orders.index')}}" class="list-group-item list-group-item-action" onclick="setActive(this, 'order')">List Order</a>
     <a href="#" class="list-group-item list-group-item-action" onclick="setActive(this, 'paypal')">PayPal</a>
     <a href="#" class="list-group-item list-group-item-action" onclick="setActive(this, 'more')">More</a>
     <a class="list-group-item list-group-item-action" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>

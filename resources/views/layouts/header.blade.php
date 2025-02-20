@@ -14,11 +14,14 @@
             <div class="nav navbar-nav">
                 <a class="nav-item nav-link active" href="{{ route('home') }}" aria-current="page">Home <span class="visually-hidden">(current)</span></a>
                 <a class="nav-item nav-link" href="{{ route('books') }}">Đọc sách của thư viện</a>
+@if (Auth::check())
+    <a class="nav-item nav-link" href="{{ route('orders.index') }}">Đơn hàng của tôi</a>
+@endif
                 <div class="ml-auto dropdown">
                     @if (Auth::check())
                         <a class="nav-link dropdown-toggle" href="{{ route('profile') }}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (Auth::user()->avatar)
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle cover" style="width: 30px; height: 30px;   object-fit: cover;">
+                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle cover" style="width: 30px; height: 30px; object-fit: cover;">
                             @else
                                 <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
                             @endif
@@ -38,35 +41,33 @@
                     @endif
                 </div>
             </div>
-<!-- Giỏ hàng -->
-<div class="ml-auto dropdown">
-    @guest
-        <span class="nav-link">You need to log in to view your cart.</span>
-    @else
-        <a class="nav-link dropdown-toggle" href="#" id="navbarCartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
-            <span class="badge bg-primary">{{ auth()->user()->carts()->count() }}</span> <!-- Hiển thị số lượng sản phẩm -->
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarCartDropdown">
-            @if (auth()->user()->carts()->count() > 0)
-                @foreach (auth()->user()->carts as $cart)
-                    <li>
-                        <a class="dropdown-item" href="{{ route('products.show', $cart->product_id) }}">
-                            {{ $cart->product->name }} - Số lượng: {{ $cart->quantity }}
-                        </a>
-                    </li>
-                @endforeach
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" href="{{ route('cart.show') }}">Xem tất cả</a>
-                </li>
-            @else
-                <li><span class="dropdown-item">Giỏ hàng trống.</span></li>
-            @endif
-        </ul>
-    @endguest
-</div>
-</div>
+            <!-- Giỏ hàng -->
+            <div class="ml-auto dropdown">
+                @guest
+                @else
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarCartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
+                        <span class="badge bg-primary">{{ auth()->user()->carts()->count() }}</span> <!-- Hiển thị số lượng sản phẩm -->
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarCartDropdown">
+                        @if (auth()->user()->carts()->count() > 0)
+                            @foreach (auth()->user()->carts as $cart)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('products.show', $cart->product_id) }}">
+                                        {{ $cart->product->name }} - Số lượng: {{ $cart->quantity }}
+                                    </a>
+                                </li>
+                            @endforeach
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('cart.show') }}">Xem tất cả</a>
+                            </li>
+                        @else
+                            <li><span class="dropdown-item">Giỏ hàng trống.</span></li>
+                        @endif
+                    </ul>
+                @endguest
+            </div>
         </nav>
     </div>
 </body>

@@ -2,6 +2,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -30,23 +31,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     //Cart navbar
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+
+    //Order
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
 
-// Đăng nhập
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-
-// Đăng xuất
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-// Đăng ký
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
-
 // Các route cho admin
-Route::group(['middleware' => 'auth.admin'], function () {
+    Route::group(['middleware' => 'auth.admin'], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });
@@ -70,4 +65,21 @@ Route::group(['middleware' => 'auth.admin'], function () {
     // Reset password
     Route::get('/password/reset', [PasswordResetController::class, 'showResetForm'])->name('password.request');
     Route::post('/password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+
+    // Order
+    Route::get('/dashboard/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
+    Route::post('dashboard/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    Route::delete('/dashboard/orders/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 });
+
+
+// Đăng nhập
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+// Đăng xuất
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Đăng ký
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);

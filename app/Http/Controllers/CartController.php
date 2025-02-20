@@ -19,10 +19,11 @@ public function show()
     return view('client.cart', compact('carts', 'products'));
 }
     // Thêm sản phẩm vào giỏ hàng
-  public function add(Request $request)
+  // Thêm sản phẩm vào giỏ hàng
+public function add(Request $request)
 {
     $request->validate([
-        'product_id' => 'required|exists:products,id',
+        'product_id' => 'required|exists:products,id', // Đảm bảo rằng product_id được cung cấp và hợp lệ
     ]);
 
     $product = Product::find($request->product_id);
@@ -45,8 +46,8 @@ public function show()
     // Nếu không có, thêm vào giỏ hàng
     Cart::create([
         'user_id' => Auth::id(),
-        'product_id' => $product->id,
-        'quantity' => 1,  // Chỉ mượn một quyển sách
+        'product_id' => $product->id,  // Đảm bảo product_id được thêm vào
+        'quantity' => 1,  // Giả sử mặc định là 1 sản phẩm
     ]);
 
     return redirect()->route('cart.show')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');

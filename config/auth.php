@@ -7,15 +7,15 @@ return [
     | Authentication Defaults
     |--------------------------------------------------------------------------
     |
-    | This option defines the default authentication "guard" and password
-    | reset "broker" for your application. You may change these values
-    | as required, but they're a perfect start for most applications.
+    | Tùy chọn này định nghĩa "guard" xác thực mặc định và "broker" đặt lại mật khẩu
+    | cho ứng dụng của bạn. Bạn có thể thay đổi các giá trị này
+    | theo yêu cầu, nhưng chúng là một khởi đầu hoàn hảo cho hầu hết các ứng dụng.
     |
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'web', // Đặt guard mặc định là 'web'
+        'passwords' => 'users', // Đặt broker mật khẩu mặc định là 'users'
     ],
 
     /*
@@ -23,15 +23,11 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | which utilizes session storage plus the Eloquent user provider.
+    | Tiếp theo, bạn có thể định nghĩa mọi guard xác thực cho ứng dụng của bạn.
+    | Tất nhiên, một cấu hình mặc định tuyệt vời đã được định nghĩa cho bạn
+    | sử dụng lưu trữ phiên cùng với nhà cung cấp người dùng Eloquent.
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
-    | Supported: "session"
+    | Hỗ trợ: "session"
     |
     */
 
@@ -47,28 +43,19 @@ return [
     | User Providers
     |--------------------------------------------------------------------------
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
+    | Tất cả các guard xác thực đều có một nhà cung cấp người dùng, định nghĩa cách mà
+    | người dùng thực sự được truy xuất từ cơ sở dữ liệu hoặc hệ thống lưu trữ khác
+    | được ứng dụng sử dụng. Thông thường, Eloquent được sử dụng.
     |
-    | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
+    | Hỗ trợ: "database", "eloquent"
     |
     */
 
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class, // Tham chiếu trực tiếp đến mô hình User
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -76,24 +63,16 @@ return [
     | Resetting Passwords
     |--------------------------------------------------------------------------
     |
-    | These configuration options specify the behavior of Laravel's password
-    | reset functionality, including the table utilized for token storage
-    | and the user provider that is invoked to actually retrieve users.
-    |
-    | The expiry time is the number of minutes that each reset token will be
-    | considered valid. This security feature keeps tokens short-lived so
-    | they have less time to be guessed. You may change this as needed.
-    |
-    | The throttle setting is the number of seconds a user must wait before
-    | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
+    | Các tùy chọn cấu hình này xác định hành vi của chức năng đặt lại mật khẩu của Laravel,
+    | bao gồm bảng được sử dụng để lưu trữ token và nhà cung cấp người dùng được gọi
+    | để thực sự truy xuất người dùng.
     |
     */
 
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' => 'password_reset_tokens', // Sử dụng tên bảng mặc định
             'expire' => 60,
             'throttle' => 60,
         ],
@@ -104,12 +83,11 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the amount of seconds before a password confirmation
-    | window expires and users are asked to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
+    | Tại đây bạn có thể định nghĩa số giây trước khi cửa sổ xác nhận mật khẩu
+    | hết hạn và người dùng được yêu cầu nhập lại mật khẩu của họ qua màn hình
+    | xác nhận. Theo mặc định, thời gian chờ kéo dài trong ba giờ.
     |
     */
 
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
-
+    'password_timeout' => 10800, // Thời gian chờ mặc định
 ];

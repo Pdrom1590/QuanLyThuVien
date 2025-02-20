@@ -3,15 +3,15 @@
 @section('content')
 <div class="container">
     <h1 class="mb-4">Giỏ hàng</h1>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <th>Tên sản phẩm</th>
+                    <th>Thời gian thêm vào giỏ</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                 @foreach ($carts as $cart)
                     <tr>
                         <td>{{ $cart->product->name }}</td>
+                        <td>{{ $cart->created_at->format('d/m/Y H:i') }}</td>
                         <td>
                             <form action="{{ route('cart.delete', $cart->id) }}" method="POST" class="d-inline">
                                 @csrf
@@ -43,10 +45,30 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Nút Đặt hàng -->
+        <div class="mt-3">
+            <h3>Đặt hàng</h3>
+            <form action="{{ route('orders.store') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="product_id">Sản phẩm</label>
+                    <select name="product_id" id="product_id" class="form-control" required>
+                        @foreach ($carts as $cart)
+                            <option value="{{ $cart->product->id }}">{{ $cart->product->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pickup_date">Ngày nhận hàng</label>
+                    <input type="date" name="pickup_date" id="pickup_date" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Đặt hàng</button>
+            </form>
+        </div>
     @endif
 
     <div class="mt-3">
-        <!-- Nơi để thêm sản phẩm vào giỏ -->
         <h3>Thêm sản phẩm vào giỏ hàng</h3>
         <form action="{{ route('cart.add') }}" method="POST">
             @csrf
@@ -63,4 +85,3 @@
     </div>
 </div>
 @endsection
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

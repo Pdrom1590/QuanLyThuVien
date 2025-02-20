@@ -13,5 +13,7 @@
 @yield('login')
 @yield('register')
 @yield('content')
+@yield('orders')
+@yield('createOderblade')
 </div>
 @include('layouts.footer')

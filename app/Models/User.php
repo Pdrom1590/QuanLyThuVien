@@ -17,11 +17,13 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'is_admin',
+    'is_staff',
+];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -39,6 +41,10 @@ class User extends Authenticatable
 public function product()
 {
     return $this->belongsTo(Product::class);
+}
+public function oder()
+{
+    return $this->belongsTo(Order::class);
 }
     /**
      * Get the attributes that should be cast.
