@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,12 +10,12 @@ class Cart extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'book_id', // Thay đổi từ product_id thành book_id
         'quantity',
     ];
 
-    public function product()
+    public function book()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Book::class, 'book_id');
     }
 }

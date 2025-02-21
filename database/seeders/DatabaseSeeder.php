@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      */
@@ -18,21 +19,13 @@ class DatabaseSeeder extends Seeder
     $user->name = 'admin';
     $user->email = 'admin@gmail.com';
     $user->password = bcrypt('123456');
-    $user->is_admin = true;
+    $user->role ='admin';
     $user->save();
 
-    $user = new User();
-    $user->name = 'user';
-    $user->email = 'user@gmail.com';
-    $user->password = bcrypt('123456');
-    $user->is_admin = false;
-    $user->save();
-
-    $user1 = new User();
-    $user1->name = 'Thiên yêu Bảo';
-    $user1->email = 'thien@gmail.com';
-    $user1->password = bcrypt('123456');
-    $user1->is_admin = false;
-    $user1->save();
+        $this->call([
+        BookSeeder::class,
+        // Các seeder khác nếu có
+    ]);
     }
+
 }

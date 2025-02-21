@@ -9,10 +9,10 @@ use App\Models\User; // Nhập mô hình User
 class ProfileController extends Controller
 {
     // Hiển thị thông tin cá nhân
-    public function index()
-    {
-        return view('client.profile', ['user' => Auth::user()]);
-    }
+public function index()
+{
+    return view('client.profile', ['user' => Auth::user()]);
+}
 
     // Cập nhật thông tin cá nhân
 public function update(Request $request)

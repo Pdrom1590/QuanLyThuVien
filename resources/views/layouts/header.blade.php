@@ -1,4 +1,3 @@
-<!-- resources/views/layouts/header.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,63 +9,82 @@
 </head>
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand navbar-light bg-light">
-            <div class="nav navbar-nav">
-                <a class="nav-item nav-link active" href="{{ route('home') }}" aria-current="page">Home <span class="visually-hidden">(current)</span></a>
-                <a class="nav-item nav-link" href="{{ route('books') }}">Đọc sách của thư viện</a>
-@if (Auth::check())
-    <a class="nav-item nav-link" href="{{ route('orders.index') }}">Đơn hàng của tôi</a>
-@endif
-                <div class="ml-auto dropdown">
-                    @if (Auth::check())
-                        <a class="nav-link dropdown-toggle" href="{{ route('profile') }}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (Auth::user()->avatar)
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle cover" style="width: 30px; height: 30px; object-fit: cover;">
-                            @else
-                                <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
-                            @endif
-                            {{ Auth::user()->name }} <!-- Hiển thị tên người dùng -->
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('profile') }}">Xem hồ sơ</a></li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('home') }}">Thư Viện</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('home') }}">Trang Chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('books.list') }}">Đọc Sách</a>
+                        </li>
+                        @if (Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('orders.index') }}">Đơn Hàng Của Tôi</a>
                             </li>
-                        </ul>
-                    @else
-                        <a class="nav-item nav-link" href="{{ route('login') }}">Login</a>
-                    @endif
-                </div>
-            </div>
-            <!-- Giỏ hàng -->
-            <div class="ml-auto dropdown">
-                @guest
-                @else
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarCartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
-                        <span class="badge bg-primary">{{ auth()->user()->carts()->count() }}</span> <!-- Hiển thị số lượng sản phẩm -->
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarCartDropdown">
-                        @if (auth()->user()->carts()->count() > 0)
-                            @foreach (auth()->user()->carts as $cart)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('products.show', $cart->product_id) }}">
-                                        {{ $cart->product->name }} - Số lượng: {{ $cart->quantity }}
-                                    </a>
-                                </li>
-                            @endforeach
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('cart.show') }}">Xem tất cả</a>
-                            </li>
-                        @else
-                            <li><span class="dropdown-item">Giỏ hàng trống.</span></li>
                         @endif
                     </ul>
-                @endguest
+                    <div class="ms-auto dropdown">
+                        @if (Auth::check())
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Auth::user()->avatar)
+                                    <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                                @endif
+                                {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Xem Hồ Sơ</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng Xuất</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        @else
+                            <a class="nav-link" href="{{ route('login') }}">Đăng Nhập</a>
+                        @endif
+                    </div>
+                    <!-- Giỏ hàng -->
+                    <div class="ms-3 dropdown">
+                        @guest
+                        @else
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarCartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge bg-primary">{{ auth()->user()->carts()->count() }}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarCartDropdown">
+                                @if (auth()->user()->carts()->count() > 0)
+                                    @foreach (auth()->user()->carts as $cart)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('books.show', $cart->book_id) }}">
+                                                {{ $cart->book->name }} - Số lượng: {{ $cart->quantity }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('cart.show') }}">Xem Tất Cả</a>
+                                    </li>
+                                @else
+                                    <li><span class="dropdown-item">Giỏ hàng trống.</span></li>
+                                @endif
+                            </ul>
+                        @endguest
+                    </div>
+                    @if(Auth::check() && Auth::user()->role == "admin")
+                        <div class="ms-3">
+                            <a class="btn btn-outline-secondary" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        </div>
+                    @endif
+                </div>
             </div>
         </nav>
     </div>

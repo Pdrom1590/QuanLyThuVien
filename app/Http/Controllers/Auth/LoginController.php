@@ -18,9 +18,12 @@ class LoginController extends Controller
             if($status){
                 $user = Auth::user();
                 $urlRedirect="/";
-                if($user->is_admin == true){
+                if($user->role === 'admin'){
                     $urlRedirect= "dashboard";
-                }else{
+                }else if($user->role === 'staff'){
+                    $urlRedirect= 'staff/dashboard';
+                }
+                else{
                 } return redirect()->intended($urlRedirect);
             }
             return back()->with('msg','Bạn đã nhập sai mật khẩu hoặc email rồi!!!');

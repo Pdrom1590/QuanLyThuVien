@@ -3,36 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title')</title>
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{asset('scss/main.scss')}}">
-    <script src="{{asset('js/main.js')}}"></script>
+    <title>@yield('title', 'Quản Lý Thư Viện')</title> <!-- Đặt tiêu đề mặc định -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    @vite(['resources/scss/app.scss', 'resources/js/app.js']) <!-- Nếu bạn sử dụng Vite cho CSS và JS -->
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-3">
-            <h1>Menu</h1>
-            <div>
-                <!-- Hover added -->
-    <div class="list-group" id="itemList">
-    <a href="{{ route('products.list', ['active' => 'products']) }}" class="list-group-item list-group-item-action">Product</a>
-    <a href="{{route('admin.users.index')}}" class="list-group-item list-group-item-action" onclick="setActive(this, 'user')">User</a>
-    <a href="{{route('admin.orders.index')}}" class="list-group-item list-group-item-action" onclick="setActive(this, 'order')">List Order</a>
-    <a href="#" class="list-group-item list-group-item-action" onclick="setActive(this, 'paypal')">PayPal</a>
-    <a href="#" class="list-group-item list-group-item-action" onclick="setActive(this, 'more')">More</a>
-    <a class="list-group-item list-group-item-action" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-    </form>
-    </div>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Quản Lý Thư Viện</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.statistics') }}">Thống Kê Sách</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">Quản Lý Người Dùng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.orders.index') }}">Quản Lý Đơn Hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard.books.index') }}">Quản Lý Sách</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng Xuất</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </div>
-        <div class="col-9">
-            @yield('content') <!-- Phần nội dung sẽ hiển thị ở đây -->
-        </div>
+    </nav>
+
+    <div class="container mt-4">
+        @yield('content') <!-- Nội dung chính sẽ được chèn vào đây -->
     </div>
-</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Middleware\AuthenticateAdmin;
+use App\Http\Middleware\CheckAdminOrStaff;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\EnsureUserIsSubscribed;
-use Illuminate\Auth\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,11 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-->withMiddleware(function (Middleware $middleware) {
-    $middleware->alias([
-        'auth.admin' => AuthenticateAdmin::class
-    ]);
-})
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'checkrole' => CheckRole::class,
+            'admin_or_staff' => CheckAdminOrStaff::class,
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

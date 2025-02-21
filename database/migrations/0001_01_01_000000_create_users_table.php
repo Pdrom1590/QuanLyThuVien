@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_admin')->default(false);
-            $table->string('avatar')->nullable(); // Thêm cột avatar, có thể null
-            $table->rememberToken();
-            $table->timestamps();
-        });
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email')->unique();
+    $table->timestamp('email_verified_at')->nullable();
+    $table->string('password');
+    $table->string('role')->default('user'); // Thêm cột role với giá trị mặc định là 'user'
+    $table->string('avatar')->nullable();
+    $table->string('phone')->nullable();
+    $table->enum('status', ['active', 'inactive', 'banned'])->default('active');
+    $table->foreignId('created_by')->nullable()->constrained('users');
+    $table->timestamp('last_login_at')->nullable();
+    $table->rememberToken();
+    $table->timestamps();
+});
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

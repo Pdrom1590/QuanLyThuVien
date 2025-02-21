@@ -16,8 +16,8 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-    {
-         // Xác thực dữ liệu đầu vào
+{
+    // Xác thực dữ liệu đầu vào
     $validator = Validator::make($request->all(), [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
@@ -31,13 +31,20 @@ class RegisterController extends Controller
     }
 
     // Tạo người dùng mới
-    User::create([
+    $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'role' => 'user', // Thiết lập vai trò là 'user'
     ]);
 
-        return redirect()->route('login')->with('success', 'Đăng ký thành công! Bạn có thể đăng nhập.');
-    }
+    // Nếu bạn cần thêm một bản ghi vào bảng carts, hãy chắc chắn rằng bạn có book_id
+    // Nếu không cần, hãy bỏ qua đoạn này
+    // Cart::create([
+    //     'user_id' => $user->id,
+    //     'book_id' => $someBookId, // Đảm bảo rằng bạn có giá trị cho book_id
+    // ]);
+
+    return redirect()->route('login')->with('success', 'Đăng ký thành công! Bạn có thể đăng nhập.');
+}
 }
